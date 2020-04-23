@@ -1,17 +1,23 @@
 #pip3 install opencv-python
 #pip3 install numpy
-import cv2
 import numpy as np
 import utlis
 from flask import Flask, escape, request, jsonify, send_file
 import json 
 import cv2
+import os.path
+from os import path    
 
 app = Flask(__name__)
 test_id=1
 myIndex=[]
+
 DB={"test":[],
     "scantron":[]}
+if(os.path.exists("./DB.txt")):
+    with open('./DB.txt') as f:
+        DB = json.load(f)
+
 
 @app.route('/api/tests',methods=['POST'])
 def create_test():
@@ -19,10 +25,12 @@ def create_test():
     req=request.json
     if len(DB["test"])==0:
         DB["test"].append({"test_id":test_id,"subject":req["subject"],"answer_keys":req["answer_keys"],"submissions":[]})
+        saveFile()
         return (jsonify(test_id=test_id,subject=req["subject"],answer_key=req["answer_keys"], submission= [])),201
     else:
         test_id+=1
         DB["test"].append({"test_id":test_id,"subject":req["subject"],"answer_keys":req["answer_keys"],"submissions":[]})
+        saveFile()
         return (jsonify(test_id=test_id,subject=req["subject"],answer_key=req["answer_keys"],submission= [])),201
 
 
@@ -35,6 +43,7 @@ def getPDF(get_id):
         addr="./files/"+strid+".jpg"
         image.save(addr)
         readfile(addr)
+        
         for x in range (len(myIndex)):
             if(myIndex[x]==-1):
                 myIndex[x]=""
@@ -64,7 +73,6 @@ def getPDF(get_id):
         score =0
         subject ="Math"
         result=[]
-        
         for i in range (len(myIndex)):
             result.append( {str(i+1) :{"actual":DB["test"][0]["answer_keys"][str(i+1)], "expected" : myIndex[i]} })
             if(DB["test"][0]["answer_keys"][str(i+1)]==myIndex[i]):
@@ -74,7 +82,8 @@ def getPDF(get_id):
     for i in range(len(DB["test"])):
         if(DB["test"][i]["subject"]==subject):
             DB["test"][i]["submissions"].append({"scantron_id":get_id,"scantron_url":url,"name":"Foo Bar","subject":subject,"Score":score,"result":result})
-
+    saveFile()
+    
     return (jsonify(scantron_id=get_id,scantron_url=url,name="Foo Bar",subject= subject, Score=score , result=result)),201
 
 
@@ -102,6 +111,13 @@ def fileurl():
             attachment_filename='snapshot.png',
             cache_timeout=0
         )
+
+
+def saveFile():
+    with open('./DB.txt', 'w') as json_file:
+        json.dump(DB, json_file)
+
+
 
 
 
@@ -181,14 +197,15 @@ def readfile(path):
         #print(myPixelVal)
 
         global myIndex
+        localmyIndex = []
         for x in range(0, question):
             arrline = myPixelVal[x]
             arrmed= np.median(arrline)
-            myIndex.append(-1)
+            localmyIndex.append(-1)
             for y in range(0,choices):
                 if(myPixelVal[x][y]/arrmed > 2):
-                    myIndex[x]=y
-        
+                    localmyIndex[x]=y
+        myIndex = localmyIndex
 
 
 
