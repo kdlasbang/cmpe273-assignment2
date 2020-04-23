@@ -1,4 +1,43 @@
 # Assignment 2
+## Pre-requisites
+
+* Install _Pipenv_
+
+```
+pip install pipenv
+```
+* Install Package that need to import
+
+```
+pip3 install opencv-python
+pip3 install numpy
+```
+
+* Install _[Flask](https://palletsprojects.com/p/flask/)_
+
+```
+pipenv install flask==1.1.1
+```
+
+Once you have installed, you will see _Pipfile_ and _Pipfile.lock_ files under working directory.
+
+* Install _pytest_ for development, not for production.
+
+```
+pipenv install pytest --dev
+```
+
+* Run this command to see the dependency graph
+
+```
+pipenv graph
+```
+* Run your Hello World Flask application from a shell/terminal.
+
+```sh
+pipenv shell
+$ env FLASK_APP=app.py flask run
+```
 
 In the assignment 2, you will be building a scantron OCR application in Python Flask. The application handles:
 
