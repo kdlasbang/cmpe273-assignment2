@@ -39,6 +39,24 @@ pipenv shell
 $ env FLASK_APP=app.py flask run
 ```
 
+## Implementation
+
+* For all uploaded test/scantron submissions data will be saved in DB.txt
+![Image text](https://github.com/kdlasbang/cmpe273-assignment2/blob/master/RMPHOTO/DBtxt.png)
+
+* For all uploaded scantron binary data will be saved in "files" folder 
+![Image text](https://github.com/kdlasbang/cmpe273-assignment2/blob/master/RMPHOTO/files.png)
+
+* Using POSTMAN to Post test. Remember to put json data into body raw part.(REMEMBER USE THE RIGHT LINK)
+![Image text](https://github.com/kdlasbang/cmpe273-assignment2/blob/master/RMPHOTO/posttest.png)
+
+* Using POSTMAN to Post scantron. Remember to leave the key part empty and upload binary image file on the value part.(REMEMBER USE THE RIGHT LINK)
+![Image text](https://github.com/kdlasbang/cmpe273-assignment2/blob/master/RMPHOTO/postscantron.png)
+
+* Using POSTMAN to GET test.(REMEMBER USE THE RIGHT LINK)
+![Image text](https://github.com/kdlasbang/cmpe273-assignment2/blob/master/RMPHOTO/gettest.png)
+
+
 In the assignment 2, you will be building a scantron OCR application in Python Flask. The application handles:
 
 * Scantron submission
