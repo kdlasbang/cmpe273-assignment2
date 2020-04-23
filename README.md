@@ -32,7 +32,7 @@ pipenv install pytest --dev
 ```
 pipenv graph
 ```
-* Run your Hello World Flask application from a shell/terminal.
+* Run your Flask application from a shell/terminal.
 
 ```sh
 pipenv shell
