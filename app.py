@@ -80,7 +80,7 @@ def getPDF(get_id):
             if(DB["test"][0]["answer_keys"][str(i+1)]==myIndex[i]):
                 score+=1
         
-        ScantronDB = {"subject" :"Math", "name": "Foo Bar", "result": jsonfile_answer}
+        ScantronDB = {"subject" :"Math", "name": "Foo Bar","scantron_id": get_id, "result": jsonfile_answer}
         DB["scantron"].append({"scantron_id":get_id,"JsonUrl":JsonUrl,"PhotoUrl":PhotoUrl,"name":"Foo Bar","subject":subject,"Score":score,"result":result})
         with open('./files/'+str(get_id)+'.json', 'w') as json_file_s:
             json.dump(ScantronDB, json_file_s)
