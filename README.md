@@ -1,5 +1,5 @@
 # Assignment 2
-## Pre-requisites
+## Pre-requisites MUST READ!!!!
 
 * Install _Pipenv_
 
@@ -39,21 +39,25 @@ pipenv shell
 $ env FLASK_APP=app.py flask run
 ```
 
-## Implementation
+## Usage MUST READ!!!!
 
 * For all uploaded test/scantron submissions data will be saved in DB.txt
 ![Image text](https://github.com/kdlasbang/cmpe273-assignment2/blob/master/RMPHOTO/DBtxt.png)
 
-* For all uploaded scantron binary data will be saved in "files" folder 
+* For all uploaded scantron binary data will be saved in "files" folder
 ![Image text](https://github.com/kdlasbang/cmpe273-assignment2/blob/master/RMPHOTO/files.png)
 
-* Using POSTMAN to Post test. Remember to put json data into body raw part.(REMEMBER USE THE RIGHT LINK)
+* Using the url from scantron's POST return can open the files:
+![Image text](https://github.com/kdlasbang/cmpe273-assignment2/blob/master/RMPHOTO/photourl.png)
+![Image text](https://github.com/kdlasbang/cmpe273-assignment2/blob/master/RMPHOTO/jsonurl.png)
+
+* Using POSTMAN to Post test. Remember to put json data into body raw part.(REMEMBER USE THE CORRECT LINK)
 ![Image text](https://github.com/kdlasbang/cmpe273-assignment2/blob/master/RMPHOTO/posttest.png)
 
-* Using POSTMAN to Post scantron. Remember to leave the key part empty and upload binary image file on the value part.(REMEMBER USE THE RIGHT LINK)
+* Using POSTMAN to Post scantron. Click form data. Remember to leave the key part empty and upload binary image file on the value part. The int digit on URL will influence the files name and the scantron_id!!! (REMEMBER USE THE CORRECT LINK)
 ![Image text](https://github.com/kdlasbang/cmpe273-assignment2/blob/master/RMPHOTO/postscantron.png)
 
-* Using POSTMAN to GET test.(REMEMBER USE THE RIGHT LINK)
+* Using POSTMAN to GET test.(REMEMBER USE THE CORRECT LINK)
 ![Image text](https://github.com/kdlasbang/cmpe273-assignment2/blob/master/RMPHOTO/gettest.png)
 
 
