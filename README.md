@@ -49,6 +49,8 @@ $ env FLASK_APP=app.py flask run
 
 * Using the url from scantron's POST return can open the files:
 ![Image text](https://github.com/kdlasbang/cmpe273-assignment2/blob/master/RMPHOTO/photourl.png)
+
+* Using the url from scantron's POST return can open the files:
 ![Image text](https://github.com/kdlasbang/cmpe273-assignment2/blob/master/RMPHOTO/jsonurl.png)
 
 * Using POSTMAN to Post test. Remember to put json data into body raw part.(REMEMBER USE THE CORRECT LINK)
