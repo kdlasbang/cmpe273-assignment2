@@ -39,7 +39,8 @@ def getPDF(get_id):
     if request.files.get(""):
         image = request.files[""]
         strid= str(get_id)
-        url= "http://localhost:5000/files/"+strid+".jpg"
+        PhotoUrl= "http://localhost:5000/files/"+strid+".jpg"
+        JsonUrl= "http://localhost:5000/files/"+strid+".json"
         addr="./files/"+strid+".jpg"
         image.save(addr)
         readfile(addr)
@@ -69,22 +70,28 @@ def getPDF(get_id):
                 myIndex[x]="E"
                 continue
             
-
         score =0
         subject ="Math"
         result=[]
+        jsonfile_answer=[]
         for i in range (len(myIndex)):
             result.append( {str(i+1) :{"actual":DB["test"][0]["answer_keys"][str(i+1)], "expected" : myIndex[i]} })
+            jsonfile_answer.append( {str(i+1) : myIndex[i]})
             if(DB["test"][0]["answer_keys"][str(i+1)]==myIndex[i]):
                 score+=1
-    DB["scantron"].append({"scantron_id":get_id,"scantron_url":url,"name":"Foo Bar","subject":subject,"Score":score,"result":result})
+        
+        ScantronDB = {"subject" :"Math", "name": "Foo Bar", "result": jsonfile_answer}
+        DB["scantron"].append({"scantron_id":get_id,"JsonUrl":JsonUrl,"PhotoUrl":PhotoUrl,"name":"Foo Bar","subject":subject,"Score":score,"result":result})
+        with open('./files/'+str(get_id)+'.json', 'w') as json_file_s:
+            json.dump(ScantronDB, json_file_s)
 
-    for i in range(len(DB["test"])):
-        if(DB["test"][i]["subject"]==subject):
-            DB["test"][i]["submissions"].append({"scantron_id":get_id,"scantron_url":url,"name":"Foo Bar","subject":subject,"Score":score,"result":result})
-    saveFile()
+        for i in range(len(DB["test"])):
+            if(DB["test"][i]["subject"]==subject):
+                DB["test"][i]["submissions"].append({"scantron_id":get_id,"JsonUrl":JsonUrl,"PhotoUrl":PhotoUrl,"name":"Foo Bar","subject":subject,"Score":score,"result":result})
+        saveFile()
     
-    return (jsonify(scantron_id=get_id,scantron_url=url,name="Foo Bar",subject= subject, Score=score , result=result)),201
+        return (jsonify(scantron_id=get_id,JsonUrl=JsonUrl,PhotoUrl=PhotoUrl,name="Foo Bar",subject= subject, Score=score , result=result)),201
+    return "Your should leave the key as empty"
 
 
 @app.route('/api/tests/<int:get_id>',methods=['GET'])
@@ -97,20 +104,27 @@ def get_test(get_id):
     return 'No This test ID, sorry!'
 
 
+@app.route('/files/<int:get_id>.jpg',methods=['GET'])
+def photourl(get_id):
+    if(os.path.exists('./files/'+str(get_id)+'.jpg')):
+        addr="./files/"+str(get_id)+".jpg"
+        return send_file(
+                addr,
+                mimetype='image/jpge',
+                attachment_filename='snapshot.png',
+                cache_timeout=0
+            )
+    return "no this json"
 
 
 
-
-@app.route('/')
-def fileurl():
-    get_id = 1
-    addr="./files/"+str(get_id)+".jpg"
-    return send_file(
-            addr,
-            mimetype='image/jpge',
-            attachment_filename='snapshot.png',
-            cache_timeout=0
-        )
+@app.route('/files/<int:get_id>.json',methods=['GET'])
+def fileurl(get_id):
+    if(os.path.exists('./files/'+str(get_id)+'.json')):
+        with open('./files/'+str(get_id)+'.json') as f1:
+            DBtest = json.load(f1)
+            return DBtest
+    return "no this json"
 
 
 def saveFile():
